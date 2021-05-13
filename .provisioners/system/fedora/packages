@@ -1,0 +1,2 @@
+PKGS+=(golang)
+PKG_INSTALL="dnf install -y"
