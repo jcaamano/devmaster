@@ -8,4 +8,4 @@
 }
 
 cd ${HOME}/.dotfiles
-stow zsh git vscode code-server
+stow --no-folding zsh git code-server
