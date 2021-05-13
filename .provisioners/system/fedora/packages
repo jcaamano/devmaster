@@ -1,2 +1,3 @@
 PKGS+=(golang)
 PKG_INSTALL="dnf install -y"
+PKG_UPGRADE="dnf upgrade -y --exclude=kernel*"
