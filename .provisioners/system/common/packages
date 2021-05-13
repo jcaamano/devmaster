@@ -1,1 +1,1 @@
-PKGS+=(vim make patch git-core docker jq kubernetes-client wget bpftool asciinema sshpass stow)
+PKGS+=(vim make patch git-core docker jq kubernetes-client wget bpftool asciinema sshpass stow util-linux-user)
