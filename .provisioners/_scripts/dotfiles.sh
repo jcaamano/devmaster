@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-repo="git@github.com:jcaamano/devmaster.git"
+repo="git@github.com:jcaamano/dotfiles.git"
 
 [ -d "${HOME}/.dotfiles" ] && {
     cd ${HOME}/.dotfiles
@@ -10,4 +10,5 @@ repo="git@github.com:jcaamano/devmaster.git"
 }
 
 cd ${HOME}/.dotfiles
-stow --no-folding zsh git code-server
+stow stow
+stow zsh git code-server
