@@ -10,5 +10,4 @@ repo="git@github.com:jcaamano/dotfiles.git"
 }
 
 cd ${HOME}/.dotfiles
-stow stow
 stow zsh git code-server
