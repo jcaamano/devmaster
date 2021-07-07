@@ -24,6 +24,7 @@ install_packages() {
     [ -n "$flavor" -a -e "${DIR}/${flavor}/packages" ] && . ${DIR}/${flavor}/packages
 
     [ -n "${PKG_UPGRADE}" ] && ${PKG_UPGRADE}
+    [ -n "${REPOS[*]}" ] && ${REPO_INSTALL} ${REPOS[*]}
     [ -n "${PKGS[*]}" ] && ${PKG_INSTALL} ${PKGS[@]}
 }
 

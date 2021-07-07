@@ -1,3 +1,5 @@
-PKGS+=(golang)
+PKGS+=(golang google-cloud-sdk)
 PKG_INSTALL="dnf install -y"
 PKG_UPGRADE="dnf upgrade -y --exclude=kernel*"
+REPO_INSTALL="dnf config-manager --add-repo"
+REPOS+=(https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64)
