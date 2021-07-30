@@ -8,9 +8,9 @@ repo_git="git@github.com:$repo"
     cd ${HOME}/.dotfiles
     git pull -f --depth 1 "$repo_https"
 } || {
-    git clone --depth 1 "$repo_https" ~/.dotfiles
+    git clone --depth 1 "$repo_https" ${HOME}/.dotfiles
+    cd ${HOME}/.dotfiles
     git remote add upstream "$repo_git"
 }
 
-cd ${HOME}/.dotfiles
 stow zsh git code-server
