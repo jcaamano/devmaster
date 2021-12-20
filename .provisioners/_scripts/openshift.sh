@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 VERSION=${1:-latest}
-URL="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${VERSION}/"
+URL="https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${VERSION}"
 DIR="/home/$USER/src/openshift/installer/${VERSION}"
 
 mkdir -p /home/$USER/src/openshift/installer/${VERSION}
