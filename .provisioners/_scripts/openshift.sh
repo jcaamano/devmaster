@@ -12,6 +12,7 @@ rm openshift-install-linux.tar.gz openshift-client-linux.tar.gz
 
 mkdir -p ~/.zshrc.d/
 touch ~/.zshrc.d/openshift.zsh
-echo "export PATH=$PATH:$DIR" >> ~/.zshrc.d/openshift.zsh
-echo "export GOOGLE_CREDENTIALS=${HOME}/dev/openshift/shared-secrets/gce/aos-serviceaccount.json"
+echo "export PATH=\$PATH:$DIR" >> ~/.zshrc.d/openshift.zsh
+echo "export GOOGLE_CREDENTIALS=\${HOME}/dev/openshift/shared-secrets/gce/aos-serviceaccount.json" >> ~/.zshrc.d/openshift.zsh
+source ~/.zshrc.d/openshift.zsh
 

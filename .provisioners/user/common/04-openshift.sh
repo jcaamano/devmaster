@@ -1,0 +1,1 @@
+../../_scripts/openshift.sh
