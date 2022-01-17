@@ -11,8 +11,9 @@ wget "${URL}/openshift-install-linux.tar.gz" && tar -xzvf openshift-install-linu
 rm openshift-install-linux.tar.gz openshift-client-linux.tar.gz
 
 mkdir -p ~/.zshrc.d/
-touch ~/.zshrc.d/openshift.zsh
-echo "export PATH=\$PATH:$DIR" >> ~/.zshrc.d/openshift.zsh
+[ -f "~/.zshrc.d/openshift.zsh" ] && rm -f ~/.zshrc.d/openshift.zsh
+echo "path=($DIR \$path)" > ~/.zshrc.d/openshift.zsh
+echo "export PATH" >> ~/.zshrc.d/openshift.zsh
 echo "export GOOGLE_CREDENTIALS=\${HOME}/dev/openshift/shared-secrets/gce/aos-serviceaccount.json" >> ~/.zshrc.d/openshift.zsh
 source ~/.zshrc.d/openshift.zsh
 
