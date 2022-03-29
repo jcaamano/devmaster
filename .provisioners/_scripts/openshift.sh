@@ -11,7 +11,7 @@ wget "${URL}/${VERSION}/openshift-install-linux-${VERSION}.tar.gz" && tar -xzvf 
 rm openshift-install-linux-${VERSION}.tar.gz openshift-client-linux-${VERSION}.tar.gz
 
 CONFIG="/home/vagrant/.zshrc.d/openshift.zsh"
-mkdir -p $(basename $CONFIG)
+mkdir -p $(dirname $CONFIG)
 rm -f $CONFIG
 echo "path=($DIR \$path)" > $CONFIG
 echo "export PATH" >> $CONFIG
