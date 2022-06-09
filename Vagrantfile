@@ -29,8 +29,10 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
   config.vm.define "devmaster" do |node|
     node.vm.hostname = "devmaster"
+    node.vm.network "public_network"
     node.vm.synced_folder ".", "/vagrant", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "nfs", nfs_udp: false
+    node.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/.secrets", "/home/vagrant/.secrets", type: "nfs", nfs_udp: false
     node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh system"
     node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
