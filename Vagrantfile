@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
 
-  config.vm.box = "fedora/35-cloud-base"
+  config.vm.box = "fedora/36-cloud-base"
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory
@@ -29,13 +29,13 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
   config.vm.define "devmaster" do |node|
     node.vm.hostname = "devmaster"
-    node.vm.network "public_network"
+    config.vm.network "forwarded_port", guest: 22, host: 22222
     node.vm.synced_folder ".", "/vagrant", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/.secrets", "/home/vagrant/.secrets", type: "nfs", nfs_udp: false
-    node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh system"
-    node.vm.provision "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
+    node.vm.provision "system", type: "shell", inline: "/vagrant/.provisioners/provision.sh system"
+    node.vm.provision "user", type: "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
     node.trigger.before :destroy do |t|
       t.info = "Checking for no dirty dotfiles"
       t.run_remote = {inline: "bash -c 'cd /home/vagrant/.dotfiles && git diff --quiet && git diff --cached --quiet || exit 1'"}
