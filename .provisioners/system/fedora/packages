@@ -1,4 +1,5 @@
 PKGS+=(google-cloud-sdk)
+PKG_CLEAN="dnf clean all"
 PKG_INSTALL="dnf install -y --nogpgcheck"
 PKG_UPGRADE="dnf upgrade -y --nogpgcheck --exclude=kernel*"
 REPO_INSTALL="dnf config-manager --add-repo"
