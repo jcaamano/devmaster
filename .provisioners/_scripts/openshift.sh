@@ -6,9 +6,9 @@ DIR="/home/$USER/src/openshift/installer/${VERSION}"
 
 mkdir -p /home/$USER/src/openshift/installer/${VERSION}
 mkdir -p "$DIR" && cd "$DIR"
-wget "${URL}/${VERSION}/openshift-client-linux-${VERSION}.tar.gz" && tar -xzvf openshift-client-linux-${VERSION}.tar.gz
-wget "${URL}/${VERSION}/openshift-install-linux-${VERSION}.tar.gz" && tar -xzvf openshift-install-linux-${VERSION}.tar.gz
-rm openshift-install-linux-${VERSION}.tar.gz openshift-client-linux-${VERSION}.tar.gz
+wget "${URL}/${VERSION}/openshift-client-linux.tar.gz" && tar -xzvf openshift-client-linux.tar.gz
+wget "${URL}/${VERSION}/openshift-install-linux.tar.gz" && tar -xzvf openshift-install-linux.tar.gz
+rm openshift-install-linux.tar.gz openshift-client-linux.tar.gz
 
 CONFIG="/home/vagrant/.zshrc.d/openshift.zsh"
 mkdir -p $(dirname $CONFIG)
