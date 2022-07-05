@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory
+    provider.nested = true
   end
   config.vm.provider "virtualbox" do |vb|
     vb.cpus = vm_cpus
