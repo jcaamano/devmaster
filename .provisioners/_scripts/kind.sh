@@ -2,7 +2,7 @@
 
 [ -x "/usr/local/bin/kind" ] && exit 0
 
-curl -Lo /usr/local/bin/kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
+curl -Lo /usr/local/bin/kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64
 chmod +x /usr/local/bin/kind
 
 wget -O /usr/local/bin/kind-with-registry.sh https://kind.sigs.k8s.io/examples/kind-with-registry.sh
