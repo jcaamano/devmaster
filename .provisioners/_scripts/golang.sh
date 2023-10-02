@@ -1,9 +1,11 @@
 #!/usr/bin/env zsh
 
-# install go
-version="$(curl -L 'https://golang.org/VERSION?m=text')"
+set -x
 
-wget "https://dl.google.com/go/${version}.linux-amd64.tar.gz"
+# install go
+version="$(curl -sL 'https://golang.org/VERSION?m=text' | head -1)"
+
+wget -nv "https://go.dev/dl/${version}.linux-amd64.tar.gz"
 rm -rf /usr/local/go && tar -C /usr/local -xzf ${version}.linux-amd64.tar.gz
 rm -f ${version}.linux-amd64.tar.gz
 
