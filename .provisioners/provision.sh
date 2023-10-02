@@ -5,7 +5,7 @@ SCOPE=$1
 DIR="$(dirname $0)/$SCOPE"
 
 run() {
-	echo "Running provisioner comand: $@"
+	echo "Running provisioner command: $@"
 	$@
 }
 
@@ -34,10 +34,21 @@ install_packages() {
     [ -n "${PKGS[*]}" ] && run ${PKG_INSTALL} ${PKGS[@]}
 }
 
+install_pips() {
+    [ -e "${DIR}/common/pips" ] && . ${DIR}/common/pips
+    PIP_INSTALL="pip install --user "
+    if [ "$SCOPE" = "system" ]; then
+        PIP_INSTALL="pip install "
+    elif [ "$SCOPE" != "user" ]; then
+        return
+    fi
+    [ -n "${PIPS[*]}" ] && run ${PIP_INSTALL} ${PIPS[@]}
+}
+
 provision() {
     local flavor="$1"
     for job in $(ls -1 ${DIR}/${flavor}); do
-        [ "$job" = "packages" ] && continue
+	    [[ "$job" =~ ^(packages|pips)$ ]] && continue
 	run ${DIR}/${flavor}/$job
     done
 }
@@ -49,6 +60,7 @@ get_id_match
 echo "Matched provisioner flavor: ${ID_MATCH:-none}"
 
 install_packages "$ID_MATCH"
+install_pips
 
 provision common
 [ -n "$ID_MATCH" ] && provision "$ID_MATCH"
