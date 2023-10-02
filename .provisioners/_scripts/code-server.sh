@@ -30,7 +30,7 @@ VERSION="$(echo_latest_version)"
 RPM="code-server-$VERSION-$ARCH.rpm"
 URL="https://github.com/cdr/code-server/releases/download/v$VERSION/$RPM"
 
-curl -fL -o "$RPM" "$URL" 
+curl -fL --no-progress-meter -o "$RPM" "$URL"
 sudo rpm -iU "$RPM"
 rm "$RPM"
 
