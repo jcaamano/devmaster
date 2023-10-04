@@ -13,4 +13,4 @@ repo_git="git@github.com:$repo"
     git remote add upstream "$repo_git"
 }
 
-stow zsh git code-server
+stow zsh git code-server devbin
