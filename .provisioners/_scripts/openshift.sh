@@ -22,5 +22,7 @@ rm -f $CONFIG
 echo "path=($DIR \$path)" > $CONFIG
 echo "export PATH" >> $CONFIG
 echo "export GOOGLE_CREDENTIALS=\${HOME}/dev/openshift/shared-secrets/gce/aos-serviceaccount.json" >> $CONFIG
+echo "export AWS_PROFILE=openshift-dev" >> $CONFIG
+echo "export OCP_CI_URL=https://openshift-release.apps.ci.l2s4.p1.openshiftapps.com/" >> $CONFIG
 source $CONFIG
 
