@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
 
-  config.vm.box = "fedora/37-cloud-base"
+  config.vm.box = "fedora/40-cloud-base"
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory
@@ -30,7 +30,16 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
   config.vm.define "devmaster" do |node|
     node.vm.hostname = "devmaster"
-    config.vm.network "forwarded_port", guest: 22, host: 22222
+
+    # for remote development
+    node.vm.network "forwarded_port", guest: 22, host: 22222
+
+    # as of fedora 40, the disk is 5GB and not expanded so we have to do it ourselves
+    node.vm.provider "libvirt" do |libvirt|
+      libvirt.machine_virtual_size = 40
+    end
+    node.vm.provision "growpart", type: "shell", inline: "growpart /dev/vda 4 && btrfs filesystem resize max /"
+
     node.vm.synced_folder ".", "/vagrant", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "nfs", nfs_udp: false
