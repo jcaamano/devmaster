@@ -8,4 +8,4 @@ get_latest_release() {
 
 version=$(get_latest_release "cli/cli")
 version="${version#v}"
-rpm -i https://github.com/cli/cli/releases/download/v${version}/gh_${version}_linux_amd64.rpm
+rpm -i --replacefiles https://github.com/cli/cli/releases/download/v${version}/gh_${version}_linux_amd64.rpm
