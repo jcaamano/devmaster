@@ -1,6 +1,6 @@
-PKGS+=(google-cloud-sdk)
+PKGS+=(docker-ce google-cloud-sdk)
 PKG_CLEAN="dnf clean all"
 PKG_INSTALL="dnf install -y --nogpgcheck"
-PKG_UPGRADE="dnf upgrade -y --nogpgcheck --exclude=kernel*"
+PKG_UPGRADE="dnf upgrade -y --nogpgcheck && dnf remove -y --oldinstallonly"
 REPO_INSTALL="dnf config-manager --add-repo"
-REPOS+=(https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64)
+REPOS+=(https://download.docker.com/linux/fedora/docker-ce.repo https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64)

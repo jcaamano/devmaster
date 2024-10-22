@@ -53,6 +53,7 @@ Vagrant.configure("2") do |config|
     SCRIPT
     node.vm.provision "fstab", type: "shell", run: "always", inline: $fstab
 
+    node.vm.provision "system", type: "shell", inline: "/vagrant/.provisioners/provision.sh system", reboot: true
     node.vm.provision "user", type: "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
     node.trigger.before :destroy do |t|
       t.info = "Checking for no dirty dotfiles"

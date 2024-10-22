@@ -30,7 +30,9 @@ install_packages() {
 
     [ -n "${PKG_CLEAN}" ] && run ${PKG_CLEAN}
     [ -n "${PKG_UPGRADE}" ] && run ${PKG_UPGRADE}
-    [ -n "${REPOS[*]}" ] && run ${REPO_INSTALL} ${REPOS[*]}
+    for repo in "${REPOS[@]}"; do
+        run ${REPO_INSTALL} "$repo"
+    done
     [ -n "${PKGS[*]}" ] && run ${PKG_INSTALL} ${PKGS[@]}
 }
 
