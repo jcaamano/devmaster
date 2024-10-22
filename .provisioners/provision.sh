@@ -47,10 +47,22 @@ install_pips() {
     [ -n "${PIPS[*]}" ] && run ${PIP_INSTALL} ${PIPS[@]}
 }
 
+install_sysctl() {
+    local flavor="$1"
+    [ -f "${DIR}/common/sysctl" ] && {
+        sysctl -p "${DIR}/common/sysctl"
+        cp "${DIR}/common/sysctl" "/etc/sysctl.d/99-provision-common.conf"
+    }
+    [ -f "${DIR}/${flavor}/sysctl" ] && {
+        sysctl -p "${DIR}/${flavor}/sysctl"
+        cp "${DIR}/${flavor}/sysctl" "/etc/sysctl.d/99-provision-${flavor}.conf"
+    }
+}
+
 provision() {
     local flavor="$1"
     for job in $(ls -1 ${DIR}/${flavor}); do
-	    [[ "$job" =~ ^(packages|pips)$ ]] && continue
+        [[ "$job" =~ ^(packages|pips|sysctl)$ ]] && continue
 	run ${DIR}/${flavor}/$job
     done
 }
@@ -61,6 +73,7 @@ provision() {
 get_id_match
 echo "Matched provisioner flavor: ${ID_MATCH:-none}"
 
+install_sysctl "$ID_MATCH"
 install_packages "$ID_MATCH"
 install_pips
 
