@@ -9,7 +9,8 @@ Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
 
-  config.vm.box = "fedora/40-cloud-base"
+  config.vm.box = "fedora/41-cloud-base"
+  config.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/41/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-libvirt-41-1.4.x86_64.vagrant.libvirt.box"
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory
