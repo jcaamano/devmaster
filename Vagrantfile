@@ -41,19 +41,31 @@ Vagrant.configure("2") do |config|
     end
     node.vm.provision "growpart", type: "shell", inline: "growpart /dev/vda 4 && btrfs filesystem resize max /"
 
+    # mounts
     node.vm.synced_folder ".", "/vagrant", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/.secrets", "/home/vagrant/.secrets", type: "nfs", nfs_udp: false
-    # have to handle mounts on reboot, vagrant doesn't do it for us
-    $fstab=<<~SCRIPT
-    save=/var/local/devmaster.fstab.keep
-    [ -f "$save" ] && grep -vxF -F "$save" /etc/fstab > /etc/fstab && rm -f "$save"
-    while read l; do echo "$l 0 0"; done <<< $(findmnt -rnt nfs -o SOURCE,TARGET,FSTYPE,OPTIONS) > "$save" || rm "$save"
-    cat "$save" >> /etc/fstab
-    SCRIPT
-    node.vm.provision "fstab", type: "shell", run: "always", inline: $fstab
+    # use virtiofs for libvirt
+    node.vm.provider "libvirt" do |libvirt, override|
+      # requires memory_backing_dir set in /etc/libvirt/qemu.conf
+      # i.e. memory_backing_dir = "/var/lib/libvirt/qemu/ram"
+      libvirt.memorybacking :access, :mode => "shared"
+      override.vm.synced_folder ".", "/vagrant", type: "virtiofs"
+      override.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "virtiofs"
+      override.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "virtiofs"
+      override.vm.synced_folder "~/.secrets", "/home/vagrant/.secrets", type: "virtiofs"
+      # have to handle mounts on reboot, vagrant doesn't do it for us
+      $fstab=<<~SCRIPT
+      save=/var/local/devmaster.fstab.keep
+      [ -f "$save" ] && grep -vxF -F "$save" /etc/fstab > /etc/fstab && rm -f "$save"
+      while read l; do echo "$l 0 0"; done <<< $(findmnt -rnt virtiofs -o SOURCE,TARGET,FSTYPE,OPTIONS) > "$save" || rm "$save"
+      cat "$save" >> /etc/fstab
+      SCRIPT
+      override.vm.provision "fstab", type: "shell", run: "always", inline: $fstab
+    end
 
+    #provision
     node.vm.provision "system", type: "shell", inline: "/vagrant/.provisioners/provision.sh system", reboot: true
     node.vm.provision "user", type: "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
     node.trigger.before :destroy do |t|
@@ -62,9 +74,12 @@ Vagrant.configure("2") do |config|
       t.on_error = :halt
     end
   end
+
+  # dummy workers
   (1..NUM_DEVWORKERS).each do |i|
     config.vm.define "devworker#{i}" do |node|
       node.vm.hostname = "devworker#{i}"
     end
   end
+
 end
