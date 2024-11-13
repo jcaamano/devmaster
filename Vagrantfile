@@ -48,9 +48,8 @@ Vagrant.configure("2") do |config|
     node.vm.synced_folder "~/.secrets", "/home/vagrant/.secrets", type: "nfs", nfs_udp: false
     # use virtiofs for libvirt
     node.vm.provider "libvirt" do |libvirt, override|
-      # requires memory_backing_dir set in /etc/libvirt/qemu.conf
-      # i.e. memory_backing_dir = "/var/lib/libvirt/qemu/ram"
       libvirt.memorybacking :access, :mode => "shared"
+      libvirt.memorybacking :source, :type => 'memfd'
       override.vm.synced_folder ".", "/vagrant", type: "virtiofs"
       override.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "virtiofs"
       override.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "virtiofs"
