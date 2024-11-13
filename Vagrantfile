@@ -50,6 +50,9 @@ Vagrant.configure("2") do |config|
     node.vm.provider "libvirt" do |libvirt, override|
       libvirt.memorybacking :access, :mode => "shared"
       libvirt.memorybacking :source, :type => 'memfd'
+      # be aware of id mapping if you intend to write to these folders
+      # https://libvirt.org/kbase/virtiofs.html#running-unprivileged
+      # be also aware of git config safe.directory
       override.vm.synced_folder ".", "/vagrant", type: "virtiofs"
       override.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "virtiofs"
       override.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "virtiofs"
