@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
     # have to handle mounts on reboot, vagrant doesn't do it for us
     $fstab=<<~SCRIPT
     save=/var/local/devmaster.fstab.keep
-    [ -f "$save" ] && grep -vxF -F "$save" /etc/fstab > /etc/fstab && rm -f "$save"
+    [ -f "$save" ] && cat "$save" | xargs -i sed -i 's|{}||g' /etc/fstab && sed -i '/^$/d' /etc/fstab && rm "$save"
     while read l; do echo "$l 0 0"; done <<< $(findmnt -rnt virtiofs,nfs -o SOURCE,TARGET,FSTYPE,OPTIONS) > "$save" || rm "$save"
     cat "$save" >> /etc/fstab
     SCRIPT
