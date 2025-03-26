@@ -1,1 +1,1 @@
-PKGS+=(kernel-modules awscli vim make patch git jq kubernetes-client wget bpftool asciinema sshpass stow util-linux-user zsh python3-pip openssl)
+PKGS+=(kernel-modules gcc awscli vim make patch git jq kubernetes-client wget bpftool asciinema sshpass stow util-linux-user fish python3-pip openssl)

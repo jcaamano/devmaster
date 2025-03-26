@@ -13,4 +13,12 @@ repo_git="git@github.com:$repo"
     git remote add upstream "$repo_git"
 }
 
-stow zsh git code-server devbin
+stow git code-server devbin
+
+if command -v zsh 2>&1 >/dev/null; then
+  stow zsh
+fi
+
+if command -v fish 2>&1 >/dev/null; then
+  stow fish
+fi

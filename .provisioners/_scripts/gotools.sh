@@ -1,4 +1,4 @@
 #!/bin/bash
 
-/usr/local/go/bin/go install -mod=mod github.com/onsi/ginkgo/ginkgo
+/usr/local/go/bin/go install github.com/onsi/ginkgo/v2/ginkgo@latest
 touch $HOME/.ack-ginkgo-rc
