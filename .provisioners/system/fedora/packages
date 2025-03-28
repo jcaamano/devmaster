@@ -1,6 +1,6 @@
-PKGS+=(docker-ce google-cloud-sdk)
+PKGS+=(docker-ce google-cloud-sdk vim-default-editor)
 PKG_CLEAN="dnf clean all"
-PKG_INSTALL="dnf install -y --nogpgcheck"
-PKG_UPGRADE="dnf upgrade -y --nogpgcheck"
+PKG_INSTALL="dnf install -y --nogpgcheck --allowerasing"
+PKG_UPGRADE="dnf upgrade -y --nogpgcheck --allowerasing"
 REPO_INSTALL="eval i() { [[ \$1 = *.repo ]] && dnf config-manager addrepo --from-repofile=\$1 || dnf config-manager addrepo --set=baseurl=\$1 ; } ; i "
 REPOS+=(https://download.docker.com/linux/fedora/docker-ce.repo https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64)
