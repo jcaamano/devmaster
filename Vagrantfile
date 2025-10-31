@@ -73,7 +73,7 @@ Vagrant.configure("2") do |config|
     node.vm.provision "user", type: "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
     node.trigger.before :destroy do |t|
       t.info = "Checking for no dirty dotfiles"
-      t.run_remote = {inline: "bash -c 'cd /home/vagrant/.dotfiles && git diff --quiet && git diff --cached --quiet || exit 1'"}
+      t.run_remote = {inline: "bash -c '~/.local/bin/check_dotfiles.sh'"}
       t.on_error = :halt
     end
   end
