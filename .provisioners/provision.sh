@@ -22,7 +22,7 @@ get_id_match() {
     done
 }
 
-install_packages() {
+handle_packages() {
     local flavor="$1"
 
     [ -e "${DIR}/common/packages" ] && . ${DIR}/common/packages
@@ -33,10 +33,11 @@ install_packages() {
     for repo in "${REPOS[@]}"; do
         run ${REPO_INSTALL} "$repo"
     done
-    [ -n "${PKGS[*]}" ] && run ${PKG_INSTALL} ${PKGS[@]}
+    [ -n "${INSTALL_PKGS[*]}" ] && run ${PKG_INSTALL} ${INSTALL_PKGS[@]}
+    [ -n "${REMOVE_PKGS[*]}" ] && run ${PKG_REMOVE} ${REMOVE_PKGS[@]}
 }
 
-install_pips() {
+handle_pips() {
     [ -e "${DIR}/common/pips" ] && . ${DIR}/common/pips
     PIP_INSTALL="pip install --user "
     if [ "$SCOPE" = "system" ]; then
@@ -47,7 +48,7 @@ install_pips() {
     [ -n "${PIPS[*]}" ] && run ${PIP_INSTALL} ${PIPS[@]}
 }
 
-install_sysctl() {
+handle_sysctl() {
     local flavor="$1"
     [ -f "${DIR}/common/sysctl" ] && {
         sysctl -p "${DIR}/common/sysctl"
@@ -73,9 +74,9 @@ provision() {
 get_id_match
 echo "Matched provisioner flavor: ${ID_MATCH:-none}"
 
-install_sysctl "$ID_MATCH"
-install_packages "$ID_MATCH"
-install_pips
+handle_sysctl "$ID_MATCH"
+handle_packages "$ID_MATCH"
+handle_pips
 
 provision common
 [ -n "$ID_MATCH" ] && provision "$ID_MATCH"
