@@ -46,6 +46,7 @@ Vagrant.configure("2") do |config|
     node.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "nfs", nfs_udp: false
     node.vm.synced_folder "~/.secrets", "/home/vagrant/.secrets", type: "nfs", nfs_udp: false
+    node.vm.synced_folder "~/.config/gcloud", "/home/vagrant/.config/gcloud", type: "nfs", nfs_udp: false
     # use virtiofs for libvirt
     node.vm.provider "libvirt" do |libvirt, override|
       libvirt.memorybacking :access, :mode => "shared"
@@ -57,6 +58,7 @@ Vagrant.configure("2") do |config|
       override.vm.synced_folder "~/dev", "/home/vagrant/dev", type: "virtiofs"
       override.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "virtiofs"
       override.vm.synced_folder "~/.secrets", "/home/vagrant/.secrets", type: "virtiofs"
+      override.vm.synced_folder "~/.config/gcloud", "/home/vagrant/.config/gcloud", type: "virtiofs"
     end
 
     # have to handle mounts on reboot, vagrant doesn't do it for us
@@ -67,13 +69,14 @@ Vagrant.configure("2") do |config|
     cat "$save" >> /etc/fstab
     SCRIPT
     node.vm.provision "fstab", type: "shell", run: "always", inline: $fstab
+    node.vm.provision".config", type: "shell", run: "always", inline: "chown vagrant:vagrant /home/vagrant/.config"
 
     #provision
     node.vm.provision "system", type: "shell", inline: "/vagrant/.provisioners/provision.sh system", reboot: true
     node.vm.provision "user", type: "shell", inline: "/vagrant/.provisioners/provision.sh user", privileged: false
     node.trigger.before :destroy do |t|
       t.info = "Checking for no dirty dotfiles"
-      t.run_remote = {inline: "bash -c '~/.local/bin/check_dotfiles.sh'"}
+      t.run_remote = {inline: "bash -c '[ ! -x \"/home/vagrant/.local/bin/check_dotfiles.sh\" ] || /home/vagrant/.local/bin/check_dotfiles.sh'"}
       t.on_error = :halt
     end
   end
