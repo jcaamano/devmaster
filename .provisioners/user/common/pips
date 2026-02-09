@@ -1,1 +1,1 @@
-PIPS+=(ovs-dbg)
+PIPS+=(ovs-dbg jinjanator)
