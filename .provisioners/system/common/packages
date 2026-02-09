@@ -1,1 +1,1 @@
-INSTALL_PKGS+=(kernel-modules gcc awscli vim make patch git jq kubernetes-client wget bpftool asciinema sshpass stow util-linux-user fish python3-pip openssl)
+INSTALL_PKGS+=(kernel-modules gcc awscli vim make patch git jq kubernetes-client wget bpftool asciinema sshpass stow util-linux-user fish python3-pip openssl nodejs)
