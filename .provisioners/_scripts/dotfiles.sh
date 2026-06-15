@@ -17,16 +17,12 @@ repo_git="git@github.com:$repo"
 
 DOTS+=(git code-server devbin claude)
 
-stow git code-server devbin claude
-
 if command -v zsh 2>&1 >/dev/null; then
   DOTS+=(zsh)
-  stow zsh
 fi
 
 if command -v fish 2>&1 >/dev/null; then
-  stow fish
-  DOTS+=(fish)
+  DOTS+=(fish devmaster_fish_history)
 fi
 
 stow ${DOTS[@]}
