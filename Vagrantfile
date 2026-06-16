@@ -9,8 +9,8 @@ Vagrant.configure("2") do |config|
   vm_memory = ENV['VM_MEMORY'] || RAM
   vm_cpus = ENV['VM_CPUS'] || VCPUS
 
-  config.vm.box = "fedora/43-cloud-base"
-  config.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/43/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-libvirt-43-1.6.x86_64.vagrant.libvirt.box"
+  config.vm.box = "fedora/44-cloud-base"
+  config.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/44/Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-libvirt-44-1.7.x86_64.vagrant.libvirt.box"
   config.vm.provider "libvirt" do |provider|
     provider.cpus = vm_cpus
     provider.memory = vm_memory
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
     node.vm.provider "libvirt" do |libvirt|
       libvirt.machine_virtual_size = 40
     end
-    node.vm.provision "growpart", type: "shell", inline: "growpart /dev/vda 4 && btrfs filesystem resize max /"
+    node.vm.provision "growpart", type: "shell", inline: "growpart /dev/vda 3 && btrfs filesystem resize max /"
 
     # mounts
     node.vm.synced_folder ".", "/vagrant", type: "nfs", nfs_udp: false
