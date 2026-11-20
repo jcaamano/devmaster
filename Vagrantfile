@@ -34,6 +34,7 @@ Vagrant.configure("2") do |config|
 
     # for remote development
     node.vm.network "forwarded_port", guest: 22, host: 22222
+    node.vm.network "forwarded_port", guest: 3773, host: 3773
 
     # as of fedora 40, the disk is 5GB and not expanded so we have to do it ourselves
     node.vm.provider "libvirt" do |libvirt|

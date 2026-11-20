@@ -1,0 +1,1 @@
+../../_scripts/opencode.sh

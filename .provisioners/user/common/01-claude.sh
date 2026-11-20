@@ -1,1 +1,0 @@
-../../_scripts/claude.sh
